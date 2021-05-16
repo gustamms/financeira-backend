@@ -8,6 +8,8 @@ cd financeira-backend
 
 git checkout master
 
+cp .env.example .env
+
 composer install
 
 cd www

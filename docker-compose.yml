@@ -22,6 +22,9 @@ services:
     restart: 'always'
     ports:
       - 3306:3306
+    volumes:
+      - ./docker/mysql/data/mysql:/var/lib/mysql
+      - ./docker/mysql/logs/mysql:/var/log/mysql
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}

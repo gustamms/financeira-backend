@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transactions;
 use App\Models\TypePerson;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -55,6 +56,10 @@ class TransactionsController extends Controller
                 throw new Exception("Não é possível efetuar transferências para o próprio beneficiário", 1);
             }
 
+            if (!User::find($request->input('use_id_payee'))) {
+                throw new Exception("Payee doest not exist", 1);
+            }
+
             $transactions = new Transactions();
 
             $validator = \Validator::make($request->all(), $transactions::$rules);
@@ -77,7 +82,6 @@ class TransactionsController extends Controller
                 'message' => 'Not Found'
             ];
         } catch (\Throwable $th) {
-            //throw $th;
             $response = [
                 'code' => 404,
                 'status' => 'error',
@@ -85,7 +89,6 @@ class TransactionsController extends Controller
                 'message' => $th->getMessage()
             ];
         } finally {
-
             return response()->json($response, $response['code']);
         }
     }

@@ -34,6 +34,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('type-person', 'TypePersonController@store');
     $router->delete('type-person/{id}', 'TypePersonController@destroy');
 
-    $router->get('transactions/{id}', 'TransactionsController@showEspecificUser');
+    $router->get('transactions', 'TransactionsController@index');
+    $router->get('transactions/{id}', 'TransactionsController@show');
     $router->post('transactions', 'TransactionsController@store');
 });

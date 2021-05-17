@@ -2,94 +2,37 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Transactions;
-use App\Models\TypePerson;
-use App\Models\User;
-use Exception;
+use App\Services\TransactionsService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class TransactionsController extends Controller
 {
+
+    private $transactionsService;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(TransactionsService $transactionsService)
     {
         $this->middleware('auth');
+        $this->transactionsService = $transactionsService;
     }
 
-    public function showEspecificUser($id = null)
+    public function index()
     {
-        try {
-
-            $typePerson = TypePerson::find(Auth::getUser()->typ_id);
-
-            // $transactions = Transactions::where();
-
-            if ($typePerson->typ_sisid == 'LOG') {
-            }
-
-            // $data = Transactions::where('')
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
+        return $this->transactionsService->getAll();
     }
 
     public function show($id)
     {
+        return $this->transactionsService->get($id);
     }
 
     public function store(Request $request)
     {
-        try {
-
-            $typePerson = TypePerson::find(Auth::getUser()->typ_id);
-
-            if ($typePerson->typ_sisid == 'LOG') {
-                throw new Exception("Logistas não podem efetuar transferências", 1);
-            }
-
-            if ($request->input('use_id_payee') == Auth::getUser()->use_id) {
-                throw new Exception("Não é possível efetuar transferências para o próprio beneficiário", 1);
-            }
-
-            if (!User::find($request->input('use_id_payee'))) {
-                throw new Exception("Payee doest not exist", 1);
-            }
-
-            $transactions = new Transactions();
-
-            $validator = \Validator::make($request->all(), $transactions::$rules);
-
-            if ($validator->fails()) {
-                throw new \Exception('Validation exception');
-            }
-
-            $data = Transactions::create([
-                'typ_tran_id'   =>  $request->input('typ_tran_id'),
-                'use_id_payer'  =>  Auth::getUser()->use_id,
-                'use_id_payee'  =>  $request->input('use_id_payee'),
-                'tra_value'     =>  $request->input('tra_value')
-            ]);
-
-            $response = [
-                'code' => 200,
-                'status' => 'success',
-                'data' => $data,
-                'message' => 'Not Found'
-            ];
-        } catch (\Throwable $th) {
-            $response = [
-                'code' => 404,
-                'status' => 'error',
-                'data' => 'Resource Not Found',
-                'message' => $th->getMessage()
-            ];
-        } finally {
-            return response()->json($response, $response['code']);
-        }
+        return $this->transactionsService->store($request);
     }
 }

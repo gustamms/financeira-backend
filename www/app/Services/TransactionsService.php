@@ -69,20 +69,4 @@ class TransactionsService
 
         return $this->repo->create($request);
     }
-
-    public function update($id, array $data)
-    {
-        $validator = Validator::make($data, Transactions::$rules);
-
-        if ($validator->fails()) {
-            throw new Exception('Falha na validação dos dados', $validator->errors());
-        }
-
-        return $this->repo->update($id, $data);
-    }
-
-    public function destroy($id)
-    {
-        return $this->repo->delete($id);
-    }
 }

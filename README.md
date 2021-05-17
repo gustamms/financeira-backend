@@ -56,9 +56,6 @@ c522a38f4994 | financeira-backend_webserver | "docker-php-entrypoi…" | 6 minut
 composer install
 ```
 ```
-php artisan key:generate
-```
-```
 php artisan jwt:secret --force
 ```
 ```

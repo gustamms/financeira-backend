@@ -10,7 +10,6 @@ class TypePerson extends Model
     protected $primaryKey = 'typ_id';
 
     protected $fillable = [
-        'typ_id', 
         'typ_description', 
     ];
 

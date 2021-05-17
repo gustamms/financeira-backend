@@ -16,6 +16,7 @@ class TypeTransactions extends Migration
         Schema::create('type_transactions', function (Blueprint $table) {
             $table->id('typ_tran_id');
             $table->string('typ_tran_description')->unique();
+            $table->string('typ_tran_sisid')->unique();
             $table->timestamps();
         });
     }

@@ -16,6 +16,7 @@ class TypePerson extends Migration
         Schema::create('type_person', function (Blueprint $table) {
             $table->id('typ_id');
             $table->string('typ_description')->unique();
+            $table->string('typ_sisid')->unique();
             $table->timestamps();
         });
     }

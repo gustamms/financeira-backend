@@ -14,11 +14,11 @@ class Transactions extends Migration
     public function up()
     {
         Schema::create('transactions', function (Blueprint $table) {
-            $table->id('tran_id');
+            $table->id('tra_id');
             $table->unsignedBigInteger('typ_tran_id');
             $table->unsignedBigInteger('use_id_payer');
             $table->unsignedBigInteger('use_id_payee');
-            $table->float('tran_value');
+            $table->float('tra_value');
             $table->timestamps();
         });
 

@@ -18,11 +18,13 @@ class TypePersonSeeder extends Seeder
         TypePerson::create(
             [
                 'typ_description'   => 'Física',
+                'typ_sisid'         => 'FIS'
             ]
         );
         TypePerson::create(
             [
-                'typ_description'   => 'Jurídica',
+                'typ_description'   => 'Logista',
+                'typ_sisid'         => 'LOG'
             ]
         );
     }

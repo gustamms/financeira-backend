@@ -15,7 +15,7 @@ cp .env.example .env
 ```
 ### Set the Docker's database information on .env
 ```
-docker-compose -d --build
+docker-compose up -d --build
 ```
 ### After services went up
 

@@ -34,5 +34,15 @@ class UserSeeder extends Seeder
                 'password'      =>  app('hash')->make('12345')
             ]
         );
+
+        User::create(
+            [
+                'typ_id'        =>  1,
+                'use_cpf_cnpj'  =>  '94728668320',
+                'use_mail'      =>  'ssebastiaoenzobeniciocosta@vemarbrasil.com.br',
+                'use_name'      =>  'Sebastião Enzo Benício Costa',
+                'password'      =>  app('hash')->make('123456')
+            ]
+        );
     }
 }

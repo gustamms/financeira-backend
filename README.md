@@ -132,3 +132,13 @@ vendor/bin/phpunit
 ``` bash
 php artisan swagger-lume:generate
 ```
+
+## Database Schema
+
+![DBSchema](image/BDSCHEMA.png)
+
+### Improvement proposal
+
+* Create Traits for routes;
+* Improved database architecture;
+* Creation of microservices for transactions;

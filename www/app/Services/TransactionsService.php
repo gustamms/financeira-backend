@@ -11,6 +11,7 @@ use App\Repositories\TransactionsRepository;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 class TransactionsService
@@ -57,6 +58,12 @@ class TransactionsService
             throw new Exception("Beneficiário não existe", 1);
         }
 
+        $wallet = $this->availableWallet(Auth::getUser()->use_id);
+
+        if ($wallet <= 0 || $request->input('tra_value') > $wallet) {
+            throw new Exception("Saldo insuficiente", 1);
+        }
+
         $responseExternal = Http::get('https://run.mocky.io/v3/8fafdd68-a090-496f-8c9a-3442cf30dae6');
 
         $responseExternal = $responseExternal->json();
@@ -68,5 +75,27 @@ class TransactionsService
         $request->request->add(["use_id_payer" => Auth::getUser()->use_id]);
 
         return $this->repo->create($request);
+    }
+
+    private function availableWallet($id)
+    {
+        $wallet = 0;
+        $transactions = DB::table('transactions')
+            ->select(DB::raw("CASE
+                                        WHEN use_id_payee = $id THEN tra_value
+                                        WHEN use_id_payer = $id THEN - tra_value
+                                    END 'wallet'"))
+            ->where('use_id_payee', $id)
+            ->orWhere('use_id_payer', $id)
+            ->get();
+
+        if ($transactions) {
+            foreach ($transactions as $value) {
+                $number = (float)$value->wallet;
+                $wallet += $number;
+            }
+        }
+
+        return number_format($wallet, 2, ',', ' ');
     }
 }

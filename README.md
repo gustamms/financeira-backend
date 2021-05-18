@@ -16,6 +16,12 @@ localhost/api/
 http://localhost/api/documentation
 ```
 
+### To have a better experience, give administrator access
+
+``` bash
+sudo chmod 777 -R *
+```
+
 ## Clone this repository
 ``` bash
 git clone https://github.com/gustamms/financeira-backend.git
@@ -65,6 +71,12 @@ c522a38f4994 | financeira-backend_webserver | "docker-php-entrypoi…" | 6 minut
 
 ### In the line, where the IMAGE column is financial-backend_database, take the NAMES and put it in DB_HOST
 ### And set the database credentials
+
+```
+DB_DATABASE=financial
+DB_USERNAME=root
+DB_PASSWORD=docker
+```
 
 ## When the webserver and database containers is up, attach the webservice and execute this following commands 
 

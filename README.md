@@ -1,5 +1,21 @@
 # Financial-backend
 
+A financial back-end, who have two type of users, `Físico` and `Lojista`.
+
+In this project, a login system and transaction system were implemented.
+
+To run this project, have to install [Docker](https://docs.docker.com/engine/install/) and [docker-compose](https://docs.docker.com/compose/install/).
+
+### All routes are configures to run in 
+```
+localhost/api/
+```
+
+### For help, follow swagger documentation
+```
+http://localhost/api/documentation
+```
+
 ## Clone this repository
 ``` bash
 git clone https://github.com/gustamms/financeira-backend.git
@@ -98,4 +114,9 @@ The following parameters must be entered in the request body:
 ### Atach shell on webserver and execute this command
 ```bash
 vendor/bin/phpunit
+```
+
+## To generate Swagger documentation
+``` bash
+php artisan swagger-lume:generate
 ```

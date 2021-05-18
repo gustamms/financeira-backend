@@ -43,7 +43,7 @@ class TransactionsService
             throw new Exception('Não é possível transferir valores abaixo ou igual à 0');
         }
 
-        if ($request->input('use_id_payee') <= Auth::getUser()->use_id) {
+        if ($request->input('use_id_payee') == Auth::getUser()->use_id) {
             throw new Exception('Não é possível efetuar transferências para o próprio beneficiário');
         }
 

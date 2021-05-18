@@ -10,10 +10,12 @@ class TypePerson extends Model
     protected $primaryKey = 'typ_id';
 
     protected $fillable = [
-        'typ_description', 
+        'typ_description',
+        'typ_sisid'
     ];
 
     public static $rules = [
-        "typ_description" => "required|max:120",
+        "typ_description"   => "required|max:120",
+        "typ_sisid"         => "required|max:3",
     ];
 }

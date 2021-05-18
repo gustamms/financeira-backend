@@ -1,0 +1,855 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Financial API",
+        "description": "Wellcome! <br>To make requests, use login system passing cfpCnpj and password to get the token and click in Authorize and set the token",
+        "contact": {
+            "name": "Financial Team",
+            "email": "gustamms@hotmail.com"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Register new user",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "type": {
+                                        "description": "Type of user",
+                                        "type": "integer"
+                                    },
+                                    "cpfCnpj": {
+                                        "description": "Cpf or Cnpj",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "Email user",
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "description": "Name user",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "password user",
+                                        "type": "string"
+                                    },
+                                    "password_confirmation": {
+                                        "description": "Password confirmation user",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Returns success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "description": "Token for authentication Bearer",
+                                            "type": "string",
+                                            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.iLCJpYXQiOjE2MTk3ODIyNjksImV4cCI6MTYyMDM4NzA2OSwibmJmIjoxNjE5NzgyMjY5LCJqdGkiOiJXMWNyYjY5ZTI1MjJkYTE5NTc1OWJiZTEyMmJjZDFlNTIyZDEifQ.V5ajtaBf1M3Bb8HIb-.94Wan9GbvwVawF2Xwd2cvwFM5ATO6Q3cvhGbhN2bs9CXvwlOwRHdoJiOiM3cpJyezdTJHUmdrcnp5TVlnMW41Iiwic3ViIjo1MDEsInBydiI6IjE0MzA2ZGQ4G7zRJxj_AC0nHsAVB8io"
+                                        },
+                                        "token_type": {
+                                            "description": "Token type",
+                                            "type": "string",
+                                            "example": "bearer"
+                                        },
+                                        "expires_in": {
+                                            "description": "When token expires",
+                                            "type": "integer",
+                                            "example": 3600
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Error message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "message": "Unauthorized"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Login system",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "cpfCnpj": {
+                                        "description": "CPF or CNPJ",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "Password user",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Returns Token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "user": {
+                                            "description": "User details",
+                                            "type": "string",
+                                            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.iLCJpYXQiOjE2MTk3ODIyNjksImV4cCI6MTYyMDM4NzA2OSwibmJmIjoxNjE5NzgyMjY5LCJqdGkiOiJXMWNyYjY5ZTI1MjJkYTE5NTc1OWJiZTEyMmJjZDFlNTIyZDEifQ.V5ajtaBf1M3Bb8HIb-.94Wan9GbvwVawF2Xwd2cvwFM5ATO6Q3cvhGbhN2bs9CXvwlOwRHdoJiOiM3cpJyezdTJHUmdrcnp5TVlnMW41Iiwic3ViIjo1MDEsInBydiI6IjE0MzA2ZGQ4G7zRJxj_AC0nHsAVB8io"
+                                        },
+                                        "token_type": {
+                                            "description": "Token type",
+                                            "type": "string",
+                                            "example": "bearer"
+                                        },
+                                        "expires_in": {
+                                            "description": "When token expires",
+                                            "type": "integer",
+                                            "example": 3600
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Error message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "message": "Unauthorized"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/transactions": {
+            "post": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Transactions system",
+                "operationId": "App\\Http\\Controllers\\TransactionsController::store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "typ_tran_id": {
+                                        "description": "Type transaction id",
+                                        "type": "integer"
+                                    },
+                                    "use_id_payee": {
+                                        "description": "User id payee",
+                                        "type": "integer"
+                                    },
+                                    "tra_value": {
+                                        "description": "Transactions value",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Returns Token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "typ_tran_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "use_id_payee": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "tra_value": {
+                                                        "type": "string",
+                                                        "example": "100.00"
+                                                    },
+                                                    "use_id_payer": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2021-05-17T22:39:57.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2021-05-17T22:39:57.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Error message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "message": "Unauthorized"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/type-person": {
+            "get": {
+                "tags": [
+                    "Type person"
+                ],
+                "summary": "List of type person",
+                "responses": {
+                    "200": {
+                        "description": "Returns data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "typ_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "typ_description": {
+                                                        "type": "string",
+                                                        "example": "Física"
+                                                    },
+                                                    "typ_sisid": {
+                                                        "type": "string",
+                                                        "example": "FIS"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2021-05-17T22:39:57.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2021-05-17T22:39:57.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Error message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "message": "Unauthorized"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Type person"
+                ],
+                "summary": "Create new type transactions",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "typ_description": {
+                                        "type": "string",
+                                        "example": "Lojista"
+                                    },
+                                    "typ_sisid": {
+                                        "type": "string",
+                                        "example": "LOG"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Returns data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "typ_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "typ_description": {
+                                                        "type": "string",
+                                                        "example": "Física"
+                                                    },
+                                                    "typ_sisid": {
+                                                        "type": "string",
+                                                        "example": "FIS"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2021-05-17T22:39:57.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2021-05-17T22:39:57.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Error message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "message": "Unauthorized"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/type-person/{id}": {
+            "get": {
+                "tags": [
+                    "Type person"
+                ],
+                "summary": "Specific of type transactions",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Type transactions id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "typ_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "typ_description": {
+                                                        "type": "string",
+                                                        "example": "Física"
+                                                    },
+                                                    "typ_sisid": {
+                                                        "type": "string",
+                                                        "example": "FIS"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2021-05-17T22:39:57.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2021-05-17T22:39:57.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Error message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "message": "Unauthorized"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/type-transactions": {
+            "get": {
+                "tags": [
+                    "Type transactions"
+                ],
+                "summary": "List of type transactions",
+                "responses": {
+                    "200": {
+                        "description": "Returns data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "typ_tran_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "typ_tran_description": {
+                                                        "type": "string",
+                                                        "example": "Transferencia"
+                                                    },
+                                                    "typ_tran_sisid": {
+                                                        "type": "string",
+                                                        "example": "TRS"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2021-05-17T22:39:57.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2021-05-17T22:39:57.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Error message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "message": "Unauthorized"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Type transactions"
+                ],
+                "summary": "Create new type transactions",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "typ_tran_description": {
+                                        "type": "string",
+                                        "example": "Transferencia"
+                                    },
+                                    "typ_tran_sisid": {
+                                        "type": "string",
+                                        "example": "TRS"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Returns data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "typ_tran_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "typ_tran_description": {
+                                                        "type": "string",
+                                                        "example": "Transferencia"
+                                                    },
+                                                    "typ_tran_sisid": {
+                                                        "type": "string",
+                                                        "example": "TRS"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2021-05-17T22:39:57.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2021-05-17T22:39:57.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Error message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "message": "Unauthorized"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/type-transactions/{id}": {
+            "get": {
+                "tags": [
+                    "Type transactions"
+                ],
+                "summary": "Specific of type transactions",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Type transactions id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "typ_tran_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "typ_tran_description": {
+                                                        "type": "string",
+                                                        "example": "Transferencia"
+                                                    },
+                                                    "typ_tran_sisid": {
+                                                        "type": "string",
+                                                        "example": "TRS"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2021-05-17T22:39:57.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2021-05-17T22:39:57.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Error message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "message": "Unauthorized"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "apiAuth": {
+                "type": "http",
+                "description": "Login with CPF/CNPJ and password to get the authentication token",
+                "name": "Token based Based",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    }
+}

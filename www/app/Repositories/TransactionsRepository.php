@@ -34,7 +34,7 @@ class TransactionsRepository extends AbstractRepository
             }
 
             $response = [
-                'code' => 200,
+                'code' => 201,
                 'status' => 'success',
                 'data' => $data
             ];

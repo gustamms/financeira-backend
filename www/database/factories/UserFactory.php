@@ -22,9 +22,11 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'typ_id' => 1,
-            'name' => $this->faker->name,
-            'email' => $this->faker->unique()->safeEmail,
+            'typ_id' => '1',
+            'use_cpf_cnpj' => '12345',
+            'use_mail' => $this->faker->unique()->safeEmail,
+            'use_name'  =>  $this->faker->name,
+            'password' => app('hash')->make('secret123')
         ];
     }
 }

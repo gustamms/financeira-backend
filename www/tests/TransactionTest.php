@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Http;
-
 class TransactionTest extends TestCase
 {
     /**
@@ -11,12 +9,18 @@ class TransactionTest extends TestCase
      */
     public function testFisica()
     {
+        // create user data
+        $user = \App\Models\User::factory()->create([
+            'typ_id' => '1',
+            'use_cpf_cnpj' => '1234',
+            'use_mail' => 'g@gmail.com',
+            'use_name'  =>  'Teste',
+            'password' => app('hash')->make('secret123')
+        ]);
+        // create valid token
+        $token = \Tymon\JWTAuth\Facades\JWTAuth::fromUser($user);
 
-        $responseExternal = Http::post('localhost/api/login', ['cpfCnpj' => '96243480143', 'password' => '1234']);
-
-        $responseExternal = $responseExternal->json();
-
-        $this->json('POST', '/api/transactions', ['typ_tran_id' => 1, 'use_id_payee' => 3, 'tra_value' => '100.00'],  ['HTTP_Authorization' => $responseExternal['token']])
+        $this->json('POST', '/api/transactions', ['typ_tran_id' => 1, 'use_id_payee' => 1, 'tra_value' => '100.00'],  ['Authorization' => "Bearer $token"])
             ->seeStatusCode(201);
     }
 
@@ -28,11 +32,18 @@ class TransactionTest extends TestCase
     public function testLojista()
     {
 
-        $responseExternal = Http::post('localhost/api/login', ['cpfCnpj' => '06752811000125', 'password' => '12345']);
+        // create user data
+        $user = \App\Models\User::factory()->create([
+            'typ_id' => '2',
+            'use_cpf_cnpj' => '12345',
+            'use_mail' => 'lojista@gmail.com',
+            'use_name'  =>  'Teste Lojista',
+            'password' => app('hash')->make('secret123')
+        ]);
+        // create valid token
+        $token = \Tymon\JWTAuth\Facades\JWTAuth::fromUser($user);
 
-        $responseExternal = $responseExternal->json();
-
-        $this->json('POST', '/api/transactions', ['typ_tran_id' => 1, 'use_id_payee' => 3, 'tra_value' => '100.00'],  ['HTTP_Authorization' => $responseExternal['token']])
-            ->seeStatusCode(401);
+        $this->json('POST', '/api/transactions', ['typ_tran_id' => 1, 'use_id_payee' => 3, 'tra_value' => '100.00'],  ['Authorization' => "Bearer $token"])
+            ->seeStatusCode(500);
     }
 }

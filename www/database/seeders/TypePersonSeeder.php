@@ -23,8 +23,8 @@ class TypePersonSeeder extends Seeder
         );
         TypePerson::create(
             [
-                'typ_description'   => 'Logista',
-                'typ_sisid'         => 'LOG'
+                'typ_description'   => 'Lojista',
+                'typ_sisid'         => 'LOJ'
             ]
         );
     }

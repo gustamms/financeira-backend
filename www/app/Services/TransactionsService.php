@@ -49,8 +49,8 @@ class TransactionsService
 
         $typePerson = TypePerson::find(Auth::getUser()->typ_id);
 
-        if ($typePerson->typ_sisid == 'LOG') {
-            throw new Exception("Logistas não podem efetuar transferências", 1);
+        if ($typePerson->typ_sisid == 'LOJ') {
+            throw new Exception("Lojistas não podem efetuar transferências", 1);
         }
 
         if (!User::find($request->input('use_id_payee'))) {

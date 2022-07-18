@@ -1,80 +1,47 @@
-FROM php:7.4.2-apache-buster
+FROM php:8.0.2-alpine
 
-# Surpresses debconf complaints of trying to install apt packages interactively
-# https://github.com/moby/moby/issues/4032#issuecomment-192327844
- 
-ARG DEBIAN_FRONTEND=noninteractive
+ARG APP_STAGE
 
-# Update
-RUN apt-get -y update --fix-missing && \
-    apt-get upgrade -y && \
-    apt-get --no-install-recommends install -y apt-utils && \
-    rm -rf /var/lib/apt/lists/*
+ENV APP_STAGE=$APP_STAGE
 
+# Kafka
+ENV PECL_RBKAFKA_VERSION='5.0.0'
 
-# Install useful tools and install important libaries
-RUN apt-get -y update && \
-    apt-get -y --no-install-recommends install nano wget \
-dialog \
-libsqlite3-dev \
-libsqlite3-0 && \
-    apt-get -y --no-install-recommends install default-mysql-client \
-zlib1g-dev \
-libzip-dev \
-libicu-dev && \
-    apt-get -y --no-install-recommends install --fix-missing apt-utils \
-build-essential \
-git \
-curl \
-libonig-dev && \ 
-    apt-get -y --no-install-recommends install --fix-missing libcurl4 \
-libcurl4-openssl-dev \
-zip \
-openssl && \
-    rm -rf /var/lib/apt/lists/* && \
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN apk add autoconf
+RUN apk add build-base
+RUN apk add bash
+RUN apk add curl
 
-# Install xdebug
-RUN pecl install xdebug-2.8.0 && \
-    docker-php-ext-enable xdebug
+RUN apk add --update --no-cache \
+    librdkafka-dev \
+    && rm -rf /var/cache/apk/* \
+    && pecl install rdkafka \
+    && docker-php-ext-enable rdkafka
 
-# Install redis
-RUN pecl install redis-5.1.1 && \
-    docker-php-ext-enable redis
+# Instala o módulo do redis no php
+RUN pecl install redis && docker-php-ext-enable redis
 
-# Install imagick
-RUN apt-get update && \
-    apt-get -y --no-install-recommends install --fix-missing libmagickwand-dev && \
-    rm -rf /var/lib/apt/lists/* && \
-    pecl install imagick && \
-    docker-php-ext-enable imagick
+# Instala o modulo mongodb do php
+# RUN pecl install mongodb && docker-php-ext-enable mongodb
 
-# Other PHP7 Extensions
+# Instala o módulo do mysqli
+RUN docker-php-ext-install mysqli pdo pdo_mysql && docker-php-ext-enable pdo_mysql
 
-RUN docker-php-ext-install pdo_mysql && \
-    docker-php-ext-install pdo_sqlite && \
-    docker-php-ext-install mysqli && \
-    docker-php-ext-install curl && \
-    docker-php-ext-install tokenizer && \
-    docker-php-ext-install json && \
-    docker-php-ext-install zip && \
-    docker-php-ext-install -j$(nproc) intl && \
-    docker-php-ext-install mbstring && \
-    docker-php-ext-install gettext && \
-    docker-php-ext-install exif
+# INSTALL COMPOSER
+RUN curl -s https://getcomposer.org/installer | php
+RUN alias composer='php composer.phar'
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
+WORKDIR /app
 
-# Install Freetype 
-RUN apt-get -y update && \
-    apt-get --no-install-recommends install -y libfreetype6-dev \
-libjpeg62-turbo-dev \
-libpng-dev && \
-    rm -rf /var/lib/apt/lists/* && \
-    docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg && \
-    docker-php-ext-install gd
+COPY ./composer.* ./
 
-# Enable apache modules
-RUN a2enmod rewrite headers
+# RUN composer install --no-scripts --prefer-dist --no-autoloader;
 
-# Cleanup
-RUN rm -rf /usr/src/*
+RUN apk add git
+
+RUN echo "disable_functions = phpinfo" >> /usr/local/etc/php/php.ini
+
+COPY / /app
+
+# RUN composer dump-autoload --optimize --no-scripts

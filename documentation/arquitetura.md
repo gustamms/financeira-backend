@@ -1,0 +1,8 @@
+## Alto nível
+```mermaid
+graph TD;
+    CUSTOMER-->TRANSACTION;
+    BUSINESS-->TRANSACTION;
+    TRANSACTION-->WALLET;
+    WALLET-->TRANSACTION;
+```
